@@ -16,9 +16,11 @@
 #   limitations under the License.
 #
 
+SDKMAN_PREFIX="[sdkman] "
+
 function __sdkman_echo_debug() {
 	if [[ "$sdkman_debug_mode" == 'true' ]]; then
-		echo "$1"
+		echo "$SDKMAN_PREFIX$1"
 	fi
 }
 
@@ -67,19 +69,19 @@ function __sdkman_secure_curl_with_timeouts() {
 
 function __sdkman_echo_paged() {
 	if [[ -n "$PAGER" ]]; then
-		echo "$@" | eval "$PAGER"
+		echo "$SDKMAN_PREFIX\n$@" | eval "$PAGER"
 	elif command -v less >& /dev/null; then
-		echo "$@" | less
+		echo "$SDKMAN_PREFIX\n$@" | less
 	else
-		echo "$@"
+		echo "$SDKMAN_PREFIX\n$@"
 	fi
 }
 
 function __sdkman_echo() {
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
-		echo -e "$2"
+		echo -e "$SDKMAN_PREFIX$2"
 	else
-		echo -e "\033[1;$1$2\033[0m"
+		echo -e "$SDKMAN_PREFIX\033[1;$1$2\033[0m"
 	fi
 }
 
@@ -88,7 +90,7 @@ function __sdkman_echo_red() {
 }
 
 function __sdkman_echo_no_colour() {
-	echo "$1"
+	echo "$SDKMAN_PREFIX$1"
 }
 
 function __sdkman_echo_yellow() {
@@ -105,9 +107,9 @@ function __sdkman_echo_cyan() {
 
 function __sdkman_echo_confirm() {
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
-		echo -n "$1"
+		echo -n "$SDKMAN_PREFIX$1"
 	else
-		echo -e -n "\033[1;33m$1\033[0m"
+		echo -e -n "$SDKMAN_PREFIX\033[1;33m$1\033[0m"
 	fi
 }
 
